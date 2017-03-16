@@ -1,9 +1,9 @@
 package org.homonoia.echo.service.client.impl;
 
 import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.service.client.HipchatClient;
 import org.homonoia.echo.model.Result;
 import org.homonoia.echo.model.Webhook;
-import org.homonoia.echo.service.client.HipchatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

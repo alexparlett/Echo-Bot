@@ -1,8 +1,8 @@
 package org.homonoia.echo.service.listeners;
 
 import org.homonoia.echo.configuration.properties.HipchatProperties;
-import org.homonoia.echo.model.Webhook;
 import org.homonoia.echo.service.client.HipchatClient;
+import org.homonoia.echo.model.Webhook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
