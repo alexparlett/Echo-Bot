@@ -6,10 +6,10 @@ hipchat:
   url: https://homonoia-studios.hipchat.com/v2/
   token: 1Y14A9fafgTBbKWusO6I5wUPHSg0GutiNoYHqkWf
   callbacks:
-    message: https://fierce-crag-63710.herokuapp.com/hipchat/room-message
-    notification: https://fierce-crag-63710.herokuapp.com/hipchat/room-notification
-    enter: https://fierce-crag-63710.herokuapp.com/hipchat/room-enter
-    exit: https://fierce-crag-63710.herokuapp.com/hipchat/room-exit
+    message: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-message
+    notification: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-notification
+    enter: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-enter
+    exit: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-exit
   rooms:
     - Homonoia-studios
 
