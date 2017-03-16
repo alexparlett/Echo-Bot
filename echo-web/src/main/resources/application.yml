@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  display-name: Echo
+
+hipchat:
+  url: https://homonoia-studios.hipchat.com/v2/
+  token: 1Y14A9fafgTBbKWusO6I5wUPHSg0GutiNoYHqkWf
+  callbacks:
+    message: https://fierce-crag-63710.herokuapp.com/hipchat/room-message
+    notification: https://fierce-crag-63710.herokuapp.com/hipchat/room-notification
+    enter: https://fierce-crag-63710.herokuapp.com/hipchat/room-enter
+    exit: https://fierce-crag-63710.herokuapp.com/hipchat/room-exit
+  rooms:
+    - Homonoia-studios
+
+logging:
+  level:
+    org.apache.http: 'DEBUG'

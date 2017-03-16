@@ -1,0 +1,4 @@
+include 'echo-web'
+include 'echo-service'
+include 'echo-core'
+
