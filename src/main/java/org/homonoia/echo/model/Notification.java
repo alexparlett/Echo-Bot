@@ -2,8 +2,7 @@ package org.homonoia.echo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,8 +14,7 @@ import java.util.List;
  * @since 16/03/2017
  */
 @JsonRootName("notification")
-@Getter
-@Setter
+@Data
 public class Notification {
     private int id;
     private Instant date;

@@ -1,8 +1,7 @@
 package org.homonoia.echo.model;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,8 +13,7 @@ import java.util.List;
  * @since 16/03/2017
  */
 @JsonRootName("message")
-@Getter
-@Setter
+@Data
 public class Message {
     private int id;
     private Instant date;

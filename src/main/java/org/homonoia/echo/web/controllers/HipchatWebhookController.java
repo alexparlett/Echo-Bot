@@ -1,5 +1,6 @@
 package org.homonoia.echo.web.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.homonoia.echo.model.RoomEnter;
 import org.homonoia.echo.model.RoomExit;
 import org.homonoia.echo.model.RoomMessage;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 16/03/2017
  */
 @RestController("/hipchat")
+@Slf4j
 public class HipchatWebhookController {
 
     @Autowired
@@ -26,21 +28,25 @@ public class HipchatWebhookController {
 
     @PostMapping(value = "/room-message", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomMessage(@RequestBody WebhookEvent<RoomMessage> roomMessage) {
+        log.info("{}", roomMessage);
         applicationEventPublisher.publishEvent(roomMessage);
     }
 
     @PostMapping(value = "/room-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomNotification(@RequestBody WebhookEvent<RoomNotification> roomNotification) {
+        log.info("{}", roomNotification);
         applicationEventPublisher.publishEvent(roomNotification);
     }
 
     @PostMapping(value = "/room-enter", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomEnter(@RequestBody WebhookEvent<RoomEnter> roomEnter) {
+        log.info("{}", roomEnter);
         applicationEventPublisher.publishEvent(roomEnter);
     }
 
     @PostMapping(value = "/room-exit", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomExit(@RequestBody WebhookEvent<RoomExit> roomExit) {
+        log.info("{}", roomExit);
         applicationEventPublisher.publishEvent(roomExit);
     }
 }

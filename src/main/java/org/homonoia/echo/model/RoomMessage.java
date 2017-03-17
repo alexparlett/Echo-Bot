@@ -1,8 +1,7 @@
 package org.homonoia.echo.model;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Copyright (c) 2015-2016 Homonoia Studios.
@@ -11,8 +10,7 @@ import lombok.Setter;
  * @since 16/03/2017
  */
 @JsonRootName("roomEnter")
-@Getter
-@Setter
+@Data
 public class RoomMessage {
     private Room room;
     private Message message;
