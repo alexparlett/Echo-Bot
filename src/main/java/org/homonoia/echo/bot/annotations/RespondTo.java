@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@EventListener(condition = "#a0.self", classes = {RoomMessage.class, RoomNotification.class})
+@EventListener(condition = "#a0.self == true", classes = {RoomMessage.class, RoomNotification.class})
 public @interface RespondTo {
     boolean self() default false;
     String regex() default "";
