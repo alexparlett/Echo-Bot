@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
  * @since 16/03/2017
  */
 @Component
-public class ContextRefreshListener {
+public class HipchatInitializer {
 
     private final HipchatProperties hipchatProperties;
     private final HipchatClient hipchatClient;
 
     @Autowired
-    public ContextRefreshListener(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
+    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
         this.hipchatProperties = hipchatProperties;
         this.hipchatClient = hipchatClient;
     }
