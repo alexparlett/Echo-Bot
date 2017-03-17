@@ -1,4 +1,4 @@
-package org.homonoia.echo.service.client;
+package org.homonoia.echo.client;
 
 import org.homonoia.echo.model.WebhookResult;
 import org.homonoia.echo.model.Webhook;

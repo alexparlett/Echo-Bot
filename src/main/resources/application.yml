@@ -10,7 +10,7 @@ hipchat:
     enter: https://hs-echo-bot.herokuapp.com/hipchat/room-enter
     exit: https://hs-echo-bot.herokuapp.com/hipchat/room-exit
   rooms:
-    - Homonoia-studios
+    - Central
 
 logging:
   level:
