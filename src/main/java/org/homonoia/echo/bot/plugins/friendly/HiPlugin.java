@@ -31,7 +31,7 @@ public class HiPlugin {
         hipchatClient.sendRoomMessage(roomMessage.getRoom(), message);
     }
 
-    @RespondTo(regex = "#roomMessage.message.message matches '.?(Hi|Hello|Howdy|Gday)'")
+    @RespondTo(regex = "#roomMessage.message.message matches '(Hi|Hello|Howdy|Gday)'")
     public void handleDirectHello(RoomMessage roomMessage) {
         Message message = Message.builder()
                 .message(MessageFormat.format("Hi @{0}", roomMessage.getMessage().getFrom().getMentionName()))
