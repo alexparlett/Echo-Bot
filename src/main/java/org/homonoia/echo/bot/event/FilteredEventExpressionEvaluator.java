@@ -1,5 +1,6 @@
 package org.homonoia.echo.bot.event;
 
+import org.homonoia.echo.bot.event.parser.SpelExpressionParser;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.AnnotatedElementKey;
@@ -25,6 +26,10 @@ public class FilteredEventExpressionEvaluator extends CachedExpressionEvaluator 
 
     private final Map<AnnotatedElementKey, Method> targetMethodCache = new ConcurrentHashMap<AnnotatedElementKey, Method>(64);
 
+
+    public FilteredEventExpressionEvaluator() {
+        super(new SpelExpressionParser());
+    }
 
     /**
      * Create the suitable {@link EvaluationContext} for the specified event handling
