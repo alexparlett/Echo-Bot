@@ -52,6 +52,6 @@ public class HipchatClientImpl implements HipchatClient {
                 .encode()
                 .toUri();
 
-        restTemplate.postForLocation(url, null);
+        restTemplate.delete(url);
     }
 }
