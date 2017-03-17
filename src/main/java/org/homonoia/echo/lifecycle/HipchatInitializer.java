@@ -1,6 +1,7 @@
 package org.homonoia.echo.lifecycle;
 
 import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.Webhook;
 import org.homonoia.echo.model.WebhookResult;
 import org.homonoia.echo.client.HipchatClient;
@@ -26,18 +27,21 @@ public class HipchatInitializer implements SmartLifecycle {
     private final HipchatProperties hipchatProperties;
     private final HipchatClient hipchatClient;
     private final Map<String, List<WebhookResult>> activeWebhooks;
+    private final User user;
     private boolean running = false;
 
     @Autowired
-    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
+    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient, User user) {
         this.hipchatProperties = hipchatProperties;
         this.hipchatClient = hipchatClient;
+        this.user = user;
         this.activeWebhooks = new HashMap<>();
     }
 
     @Override
     public void start() {
         hipchatProperties.getRooms().forEach(room -> {
+            joinRoom(room);
             unbindRoom(room);
             bindRoom(room);
         });
@@ -46,7 +50,10 @@ public class HipchatInitializer implements SmartLifecycle {
 
     @Override
     public void stop() {
-        hipchatProperties.getRooms().forEach(this::unbindRoom);
+        hipchatProperties.getRooms().forEach(room -> {
+            leaveRoom(room);
+            unbindRoom(room);
+        });
         running = false;
     }
 
@@ -69,6 +76,14 @@ public class HipchatInitializer implements SmartLifecycle {
     @Override
     public int getPhase() {
         return 0;
+    }
+
+    private void joinRoom(String room) {
+        hipchatClient.addRoomMemberByMentionName(room, hipchatProperties.getMentionName());
+    }
+
+    private void leaveRoom(String room) {
+        hipchatClient.removeRoomMemberByMentionName(room, hipchatProperties.getMentionName());
     }
 
     private void bindRoom(String room) {

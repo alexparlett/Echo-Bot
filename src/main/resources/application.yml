@@ -1,9 +1,18 @@
 server:
   display-name: Echo
 
+logging:
+  level:
+    org.apache.http: 'DEBUG'
+
+spring:
+  redis:
+    url: redis://h:p59801122afbc4ef8989621ce83c3b4b0450cd6af213f4e0c8ff00b2bc18b9bef@ec2-34-206-56-227.compute-1.amazonaws.com:27249
+
 hipchat:
   url: https://homonoia-studios.hipchat.com/v2/
   token: 1Y14A9fafgTBbKWusO6I5wUPHSg0GutiNoYHqkWf
+  mentionName: Echo
   callbacks:
     message: https://hs-echo-bot.herokuapp.com/hipchat/room-message
     notification: https://hs-echo-bot.herokuapp.com/hipchat/room-notification
@@ -11,7 +20,3 @@ hipchat:
     exit: https://hs-echo-bot.herokuapp.com/hipchat/room-exit
   rooms:
     - Test
-
-logging:
-  level:
-    org.apache.http: 'DEBUG'

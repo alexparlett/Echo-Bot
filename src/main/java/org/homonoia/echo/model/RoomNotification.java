@@ -1,5 +1,6 @@
 package org.homonoia.echo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 
@@ -14,4 +15,6 @@ import lombok.Data;
 public class RoomNotification {
     private Room room;
     private Notification message;
+    @JsonIgnore
+    private boolean self;
 }
