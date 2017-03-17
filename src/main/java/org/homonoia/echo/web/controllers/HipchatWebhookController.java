@@ -36,8 +36,6 @@ public class HipchatWebhookController {
 
     @PostMapping(value = "/room-message", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomMessage(@RequestBody WebhookEvent<RoomMessage> roomMessage) {
-        log.info("{}", roomMessage);
-
         boolean botMentioned = roomMessage
                 .getItem()
                 .getMessage()
@@ -46,13 +44,13 @@ public class HipchatWebhookController {
                 .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), hipchatProperties.getMentionName()));
         roomMessage.getItem().setSelf(botMentioned);
 
+        log.info("{}", roomMessage);
+
         applicationEventPublisher.publishEvent(roomMessage.getItem());
     }
 
     @PostMapping(value = "/room-notification", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomNotification(@RequestBody WebhookEvent<RoomNotification> roomNotification) {
-        log.info("{}", roomNotification);
-
         boolean botMentioned = roomNotification
                 .getItem()
                 .getMessage()
@@ -61,13 +59,15 @@ public class HipchatWebhookController {
                 .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), hipchatProperties.getMentionName()));
         roomNotification.getItem().setSelf(botMentioned);
 
+        log.info("{}", roomNotification);
+
         applicationEventPublisher.publishEvent(roomNotification.getItem());
     }
 
     @PostMapping(value = "/room-enter", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomEnter(@RequestBody WebhookEvent<RoomEnter> roomEnter) {
         log.info("{}", roomEnter);
-        applicationEventPublisher.publishEvent(roomEnter);
+        applicationEventPublisher.publishEvent(roomEnter.getItem());
     }
 
     @PostMapping(value = "/room-exit", consumes = MediaType.APPLICATION_JSON_VALUE)

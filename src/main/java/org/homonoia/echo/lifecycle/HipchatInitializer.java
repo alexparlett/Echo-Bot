@@ -2,7 +2,7 @@ package org.homonoia.echo.lifecycle;
 
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
-import org.homonoia.echo.model.Webhook;
+import org.homonoia.echo.model.post.Webhook;
 import org.homonoia.echo.model.WebhookResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;

@@ -1,19 +1,18 @@
 package org.homonoia.echo.client.impl;
 
-import org.homonoia.echo.configuration.properties.HipchatProperties;
-import org.homonoia.echo.model.RoomRoles;
-import org.homonoia.echo.model.Topic;
-import org.homonoia.echo.model.User;
-import org.homonoia.echo.model.WebhookResult;
-import org.homonoia.echo.model.Webhook;
 import org.homonoia.echo.client.HipchatClient;
+import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.post.Message;
+import org.homonoia.echo.model.post.Notification;
+import org.homonoia.echo.model.post.Topic;
+import org.homonoia.echo.model.post.Webhook;
+import org.homonoia.echo.model.WebhookResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,14 +70,26 @@ public class HipchatClientImpl implements HipchatClient {
     }
 
     @Override
-    public User getUserByMentionName(String mentionName) {
+    public void sendRoomMessage(String room, Message message) {
         URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
-                .path("user/@{user}")
+                .path("room/{room}/message")
                 .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(mentionName)
+                .buildAndExpand(room)
                 .encode()
                 .toUri();
 
-        return restTemplate.getForObject(url, User.class);
+        restTemplate.postForLocation(url, message);
+    }
+
+    @Override
+    public void sendRoomNotification(String room, Notification notification) {
+        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
+                .path("room/{room}/message")
+                .queryParam("auth_token", hipchatProperties.getToken())
+                .buildAndExpand(room)
+                .encode()
+                .toUri();
+
+        restTemplate.postForLocation(url, notification);
     }
 }
