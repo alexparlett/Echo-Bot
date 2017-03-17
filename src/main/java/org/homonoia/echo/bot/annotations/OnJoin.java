@@ -20,5 +20,7 @@ import java.lang.annotation.Target;
 @Documented
 @EventListener(classes = {RoomEnter.class})
 public @interface OnJoin {
-
+    boolean self() default false;
+    String regex() default "";
+    String room() default "";
 }

@@ -20,5 +20,7 @@ import java.lang.annotation.Target;
 @Documented
 @EventListener(classes = {RoomExit.class})
 public @interface OnLeave {
-
+    boolean self() default false;
+    String regex() default "";
+    String room() default "";
 }

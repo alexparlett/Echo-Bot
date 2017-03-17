@@ -23,4 +23,5 @@ import java.lang.annotation.Target;
 public @interface Hear {
     boolean self() default false;
     String regex() default "";
+    String room() default "";
 }

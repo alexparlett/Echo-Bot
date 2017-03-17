@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/*.jar
+web: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/*.jar

@@ -1,4 +1,4 @@
-package org.homonoia.echo.model;
+package org.homonoia.echo.model.post;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

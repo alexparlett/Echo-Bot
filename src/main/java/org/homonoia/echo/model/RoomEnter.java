@@ -2,6 +2,8 @@ package org.homonoia.echo.model;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Copyright (c) 2015-2016 Homonoia Studios.
@@ -11,7 +13,8 @@ import lombok.Data;
  */
 @JsonRootName("roomEnter")
 @Data
-public class RoomEnter {
-    private Room room;
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class RoomEnter extends RoomEvent {
     private User sender;
 }

@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  * @since 17/03/2017
  */
 @Component
-public class PresenceChanges {
+public class PresenceChangesPlugin {
 
     @Autowired
     private HipchatClient hipchatClient;
