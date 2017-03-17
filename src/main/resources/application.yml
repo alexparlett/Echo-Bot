@@ -1,15 +1,14 @@
 server:
-  port: 8080
   display-name: Echo
 
 hipchat:
   url: https://homonoia-studios.hipchat.com/v2/
   token: 1Y14A9fafgTBbKWusO6I5wUPHSg0GutiNoYHqkWf
   callbacks:
-    message: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-message
-    notification: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-notification
-    enter: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-enter
-    exit: https://thawing-meadow-94960.herokuapp.com/ /hipchat/room-exit
+    message: https://hs-echo-bot.herokuapp.com/ /hipchat/room-message
+    notification: https://hs-echo-bot.herokuapp.com/ /hipchat/room-notification
+    enter: https://hs-echo-bot.herokuapp.com/ /hipchat/room-enter
+    exit: https://hs-echo-bot.herokuapp.com/ /hipchat/room-exit
   rooms:
     - Homonoia-studios
 
