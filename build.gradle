@@ -42,8 +42,6 @@ dependencies {
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
-mainClassName = "org.homonoia.echo.EchoMain"
-
 task stage(type: Copy, dependsOn: [clean, build]) {
     from jar.archivePath
     into project.rootDir
