@@ -1,6 +1,7 @@
 package org.homonoia.echo.bot.plugins.friendly;
 
 import org.homonoia.echo.bot.annotations.Hear;
+import org.homonoia.echo.bot.annotations.RespondTo;
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.model.RoomMessage;
 import org.homonoia.echo.model.post.Message;
@@ -22,7 +23,7 @@ public class HiPlugin {
     private HipchatClient hipchatClient;
 
     @Hear(regex = "#roomMessage.message.message matches '(Hi|Hello|Howdy|Gday).?Echo'")
-    public void handleDirectHello(RoomMessage roomMessage) {
+    public void handleHeardHello(RoomMessage roomMessage) {
         Message message = Message.builder()
                 .message(MessageFormat.format("Hi @{0}", roomMessage.getMessage().getFrom().getMentionName()))
                 .build();
@@ -30,4 +31,12 @@ public class HiPlugin {
         hipchatClient.sendRoomMessage(roomMessage.getRoom(), message);
     }
 
+    @RespondTo(regex = "#roomMessage.message.message matches '.?(Hi|Hello|Howdy|Gday)'")
+    public void handleDirectHello(RoomMessage roomMessage) {
+        Message message = Message.builder()
+                .message(MessageFormat.format("Hi @{0}", roomMessage.getMessage().getFrom().getMentionName()))
+                .build();
+
+        hipchatClient.sendRoomMessage(roomMessage.getRoom(), message);
+    }
 }
