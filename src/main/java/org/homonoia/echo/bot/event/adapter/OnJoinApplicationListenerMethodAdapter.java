@@ -36,7 +36,7 @@ public class OnJoinApplicationListenerMethodAdapter extends FilteringApplication
             if (self) {
                 selfPassed = !Objects.equals(roomEnter.getSender().getMentionName(), hipchatProperties.getMentionName());
             }
-            return evaluate(regex, room, roomEnter, selfPassed);
+            return selfPassed && evaluate(regex, roomEnter.getSender()) && evaluate(room, roomEnter.getRoom());
         }
         return false;
     }

@@ -2,7 +2,6 @@ package org.homonoia.echo.bot.event.adapter;
 
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
-import org.homonoia.echo.model.RoomEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.ApplicationListenerMethodAdapter;
@@ -70,24 +69,14 @@ public class FilteringApplicationListenerMethodAdapter extends ApplicationListen
         return true;
     }
 
-    protected boolean evaluate(String regex, String room, RoomEvent root, boolean selfPassed) {
-        if (StringUtils.hasText(room) || StringUtils.hasText(regex)) {
-            boolean regexPassed = true;
-            boolean roomPassed = true;
+    protected boolean evaluate(String condition, Object root) {
+        if (StringUtils.hasText(condition)) {
             Assert.notNull(this.evaluator, "EventExpressionEvaluator must no be null");
             EvaluationContext evaluationContext = this.evaluator.createEvaluationContext(
                     root, this.targetClass, this.method, new Object[]{root}, this.applicationContext);
 
-            if (StringUtils.hasText(regex)) {
-                regexPassed = this.evaluator.condition(regex, this.methodKey, evaluationContext);
-            }
-
-            if (StringUtils.hasText(room)) {
-                roomPassed = this.evaluator.condition(room, this.methodKey, evaluationContext);
-            }
-
-            return selfPassed && roomPassed && regexPassed;
+            return this.evaluator.condition(condition, this.methodKey, evaluationContext);
         }
-        return selfPassed;
+        return true;
     }
 }

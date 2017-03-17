@@ -38,7 +38,7 @@ public class HearApplicationListenerMethodAdapter extends FilteringApplicationLi
                 selfPassed = !Objects.equals(roomMessage.getMessage().getFrom().getMentionName(), hipchatProperties.getMentionName());
             }
 
-            return evaluate(regex, room, roomMessage, selfPassed);
+            return selfPassed && evaluate(regex, roomMessage.getMessage()) && evaluate(room, roomMessage.getRoom());
         } else if (arg instanceof RoomNotification) {
             Hear hear = AnnotationUtils.getAnnotation(method, Hear.class);
             String regex = hear.regex();
@@ -52,7 +52,7 @@ public class HearApplicationListenerMethodAdapter extends FilteringApplicationLi
                 selfPassed = !Objects.equals(roomNotification.getMessage().getFrom(), hipchatProperties.getMentionName());
             }
 
-            return evaluate(regex, room, roomNotification, selfPassed);
+            return selfPassed && evaluate(regex, roomNotification.getMessage()) && evaluate(room, roomNotification.getRoom());
         }
         return false;
     }

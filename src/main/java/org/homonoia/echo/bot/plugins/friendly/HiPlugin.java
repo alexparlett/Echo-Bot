@@ -22,7 +22,7 @@ public class HiPlugin {
     @Autowired
     private HipchatClient hipchatClient;
 
-    @Hear(regex = "#roomMessage.message.message matches '(Hi|Hello|Howdy|Gday).?Echo'")
+    @Hear(regex = "#root.message matches '(Hi|Hello|Howdy|Gday).?Echo'")
     public void handleHeardHello(RoomMessage roomMessage) {
         Message message = Message.builder()
                 .message(MessageFormat.format("Hi @{0}", roomMessage.getMessage().getFrom().getMentionName()))
@@ -31,7 +31,7 @@ public class HiPlugin {
         hipchatClient.sendRoomMessage(roomMessage.getRoom(), message);
     }
 
-    @RespondTo(regex = "#roomMessage.message.message contains '\\b(Hi|Hello|Howdy|Gday)'")
+    @RespondTo(regex = "#root.message contains '\\b(Hi|Hello|Howdy|Gday)'")
     public void handleDirectHello(RoomMessage roomMessage) {
         Message message = Message.builder()
                 .message(MessageFormat.format("Hi @{0}", roomMessage.getMessage().getFrom().getMentionName()))

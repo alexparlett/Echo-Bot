@@ -37,7 +37,7 @@ public class OnLeaveApplicationListenerMethodAdapter extends FilteringApplicatio
             if (self) {
                 selfPassed = !Objects.equals(roomExit.getSender().getMentionName(), hipchatProperties.getMentionName());
             }
-            return evaluate(regex, room, roomExit, selfPassed);
+            return selfPassed && evaluate(regex, roomExit.getSender()) && evaluate(room, roomExit.getRoom());
         }
         return false;
     }
