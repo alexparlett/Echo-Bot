@@ -11,6 +11,6 @@ import lombok.Data;
  */
 @JsonRootName("result")
 @Data
-public class Result {
+public class WebhookResult {
     private String id;
 }
