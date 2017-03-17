@@ -1,10 +1,9 @@
 package org.homonoia.echo.lifecycle;
 
+import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
-import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.Webhook;
 import org.homonoia.echo.model.WebhookResult;
-import org.homonoia.echo.client.HipchatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
@@ -27,14 +26,12 @@ public class HipchatInitializer implements SmartLifecycle {
     private final HipchatProperties hipchatProperties;
     private final HipchatClient hipchatClient;
     private final Map<String, List<WebhookResult>> activeWebhooks;
-    private final User user;
     private boolean running = false;
 
     @Autowired
-    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient, User user) {
+    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
         this.hipchatProperties = hipchatProperties;
         this.hipchatClient = hipchatClient;
-        this.user = user;
         this.activeWebhooks = new HashMap<>();
     }
 
