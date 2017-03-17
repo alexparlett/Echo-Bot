@@ -38,7 +38,6 @@ public class HipchatInitializer implements SmartLifecycle {
     @Override
     public void start() {
         hipchatProperties.getRooms().forEach(room -> {
-            joinRoom(room);
             unbindRoom(room);
             bindRoom(room);
         });
@@ -48,7 +47,6 @@ public class HipchatInitializer implements SmartLifecycle {
     @Override
     public void stop() {
         hipchatProperties.getRooms().forEach(room -> {
-            leaveRoom(room);
             unbindRoom(room);
         });
         running = false;
@@ -73,14 +71,6 @@ public class HipchatInitializer implements SmartLifecycle {
     @Override
     public int getPhase() {
         return 0;
-    }
-
-    private void joinRoom(String room) {
-        hipchatClient.addRoomMemberByMentionName(room, hipchatProperties.getMentionName());
-    }
-
-    private void leaveRoom(String room) {
-        hipchatClient.removeRoomMemberByMentionName(room, hipchatProperties.getMentionName());
     }
 
     private void bindRoom(String room) {

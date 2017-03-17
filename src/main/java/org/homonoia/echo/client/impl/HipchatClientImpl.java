@@ -1,6 +1,7 @@
 package org.homonoia.echo.client.impl;
 
 import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.RoomRoles;
 import org.homonoia.echo.model.Topic;
 import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.WebhookResult;
@@ -79,31 +80,5 @@ public class HipchatClientImpl implements HipchatClient {
                 .toUri();
 
         return restTemplate.getForObject(url, User.class);
-    }
-
-    @Override
-    public void addRoomMemberByMentionName(String room, String mentionName) {
-        List<String> roles = Arrays.asList("room_administrators");
-
-        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
-                .path("room/{room}/member/@{member}")
-                .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(room,mentionName)
-                .encode()
-                .toUri();
-
-        restTemplate.put(url, roles);
-    }
-
-    @Override
-    public void removeRoomMemberByMentionName(String room, String mentionName) {
-        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
-                .path("room/{room}/member/@{member}")
-                .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(room,mentionName)
-                .encode()
-                .toUri();
-
-        restTemplate.delete(url);
     }
 }

@@ -18,7 +18,4 @@ public interface HipchatClient {
     void deleteWebhook(String room, WebhookResult webhookResult);
     void setRoomTopic(String room, Topic topic);
     User getUserByMentionName(String mentionName);
-    void addRoomMemberByMentionName(String room, String mentionName);
-
-    void removeRoomMemberByMentionName(String room, String mentionName);
 }
