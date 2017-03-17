@@ -2,6 +2,7 @@ package org.homonoia.echo.client.impl;
 
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.Room;
 import org.homonoia.echo.model.post.Message;
 import org.homonoia.echo.model.post.Notification;
 import org.homonoia.echo.model.post.Topic;
@@ -58,11 +59,11 @@ public class HipchatClientImpl implements HipchatClient {
     }
 
     @Override
-    public void setRoomTopic(String room, Topic topic) {
+    public void setRoomTopic(Room room, Topic topic) {
         URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
                 .path("room/{room}/topic")
                 .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(room)
+                .buildAndExpand(room.getId())
                 .encode()
                 .toUri();
 
@@ -70,11 +71,11 @@ public class HipchatClientImpl implements HipchatClient {
     }
 
     @Override
-    public void sendRoomMessage(String room, Message message) {
+    public void sendRoomMessage(Room room, Message message) {
         URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
                 .path("room/{room}/message")
                 .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(room)
+                .buildAndExpand(room.getId())
                 .encode()
                 .toUri();
 
@@ -82,11 +83,11 @@ public class HipchatClientImpl implements HipchatClient {
     }
 
     @Override
-    public void sendRoomNotification(String room, Notification notification) {
+    public void sendRoomNotification(Room room, Notification notification) {
         URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
                 .path("room/{room}/message")
                 .queryParam("auth_token", hipchatProperties.getToken())
-                .buildAndExpand(room)
+                .buildAndExpand(room.getId())
                 .encode()
                 .toUri();
 
