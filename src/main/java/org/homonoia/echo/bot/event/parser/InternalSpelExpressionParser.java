@@ -893,6 +893,9 @@ public class InternalSpelExpressionParser extends TemplateAwareExpressionParser 
 			if (idString.equalsIgnoreCase("matches")) {
 				return t.asMatchesToken();
 			}
+			if (idString.equalsIgnoreCase("contains")) {
+				return t.asContainsToken();
+			}
 			if (idString.equalsIgnoreCase("between")) {
 				return t.asBetweenToken();
 			}

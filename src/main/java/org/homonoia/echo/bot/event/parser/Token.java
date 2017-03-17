@@ -89,6 +89,10 @@ class Token {
 		return new Token(TokenKind.MATCHES, this.startPos, this.endPos);
 	}
 
+	public Token asContainsToken() {
+		return new Token(TokenKind.CONTAINS, this.startPos, this.endPos);
+	}
+
 	public Token asBetweenToken() {
 		return new Token(TokenKind.BETWEEN, this.startPos, this.endPos);
 	}
