@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 public class Notification {
     private int id;
-    private Instant date;
+    private ZonedDateTime date;
     private String from;
     private List<User> mentions;
     private String message;
