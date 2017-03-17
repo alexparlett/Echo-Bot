@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class Room {
     @JsonProperty("id")
-    private int id;
+    private String id;
 
     @JsonProperty("is_archived")
     private boolean archived;

@@ -15,7 +15,7 @@ import java.util.List;
 @JsonRootName("message")
 @Data
 public class Message {
-    private int id;
+    private String id;
     private ZonedDateTime date;
     private User from;
     private List<User> mentions;

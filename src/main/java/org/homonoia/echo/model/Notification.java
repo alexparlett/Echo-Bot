@@ -16,7 +16,7 @@ import java.util.List;
 @JsonRootName("notification")
 @Data
 public class Notification {
-    private int id;
+    private String id;
     private ZonedDateTime date;
     private String from;
     private List<User> mentions;
