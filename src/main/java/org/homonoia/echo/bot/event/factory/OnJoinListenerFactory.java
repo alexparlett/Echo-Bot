@@ -1,9 +1,8 @@
-package org.homonoia.echo.bot.event;
+package org.homonoia.echo.bot.event.factory;
 
-import org.homonoia.echo.bot.annotations.Hear;
 import org.homonoia.echo.bot.annotations.OnJoin;
-import org.homonoia.echo.bot.annotations.OnLeave;
-import org.homonoia.echo.bot.annotations.RespondTo;
+import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
+import org.homonoia.echo.bot.event.adapter.OnJoinApplicationListenerMethodAdapter;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -21,27 +20,24 @@ import java.lang.reflect.Method;
  * @author alexparlett
  * @since 17/03/2017
  */
-public class FilteringEventListenerFactory implements EventListenerFactory, Ordered, ApplicationContextAware {
+public class OnJoinListenerFactory implements EventListenerFactory, Ordered, ApplicationContextAware {
 
     private final HipchatProperties hipchatProperties;
     private ApplicationContext applicationContext;
     private final FilteredEventExpressionEvaluator evaluator = new FilteredEventExpressionEvaluator();
 
-    public FilteringEventListenerFactory(HipchatProperties hipchatProperties) {
+    public OnJoinListenerFactory(HipchatProperties hipchatProperties) {
         this.hipchatProperties = hipchatProperties;
     }
 
     @Override
     public boolean supportsMethod(Method method) {
-        return AnnotatedElementUtils.hasAnnotation(method, Hear.class) ||
-                AnnotatedElementUtils.hasAnnotation(method, RespondTo.class) ||
-                AnnotatedElementUtils.hasAnnotation(method, OnJoin.class) ||
-                AnnotatedElementUtils.hasAnnotation(method, OnLeave.class);
+        return AnnotatedElementUtils.hasAnnotation(method, OnJoin.class);
     }
 
     @Override
     public ApplicationListener<?> createApplicationListener(String beanName, Class<?> type, Method method) {
-        return new FilteringApplicationListenerMethodAdapter(beanName, type, method,evaluator,applicationContext,hipchatProperties);
+        return new OnJoinApplicationListenerMethodAdapter(beanName, type, method,evaluator,applicationContext,hipchatProperties);
     }
 
     @Override
