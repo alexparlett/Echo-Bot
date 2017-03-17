@@ -42,7 +42,7 @@ dependencies {
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
-springBoot {
+bootRepackage {
     mainClass = 'org.homonoia.echo.EchoMain'
 }
 
