@@ -38,7 +38,7 @@ public class RespondToApplicationListenerMethodAdapter extends FilteringApplicat
                 selfPassed = !Objects.equals(roomMessage.getMessage().getFrom().getMentionName(), hipchatProperties.getMentionName());
             }
 
-            return evaluate(regex, room, roomMessage, selfPassed, roomMessage.getMessage(), roomMessage.getRoom());
+            return evaluate(regex, room, roomMessage, selfPassed);
         } else if (arg instanceof RoomNotification) {
             RespondTo respondTo = AnnotationUtils.getAnnotation(method, RespondTo.class);
             String regex = respondTo.regex();
@@ -52,7 +52,7 @@ public class RespondToApplicationListenerMethodAdapter extends FilteringApplicat
                 selfPassed = !Objects.equals(roomNotification.getMessage().getFrom(), hipchatProperties.getMentionName());
             }
 
-            return evaluate(regex, room, roomNotification, selfPassed, roomNotification.getMessage(), roomNotification.getRoom());
+            return evaluate(regex, room, roomNotification, selfPassed);
         }
         return false;
     }

@@ -70,13 +70,13 @@ public class FilteringApplicationListenerMethodAdapter extends ApplicationListen
         return true;
     }
 
-    protected boolean evaluate(String regex, String room, RoomEvent root, boolean selfPassed, Object... args) {
+    protected boolean evaluate(String regex, String room, RoomEvent root, boolean selfPassed) {
         if (StringUtils.hasText(room) || StringUtils.hasText(regex)) {
             boolean regexPassed = true;
             boolean roomPassed = true;
             Assert.notNull(this.evaluator, "EventExpressionEvaluator must no be null");
             EvaluationContext evaluationContext = this.evaluator.createEvaluationContext(
-                    root, this.targetClass, this.method, new Object[]{root, args}, this.applicationContext);
+                    root, this.targetClass, this.method, new Object[]{root}, this.applicationContext);
 
             if (StringUtils.hasText(regex)) {
                 regexPassed = this.evaluator.condition(regex, this.methodKey, evaluationContext);

@@ -2,6 +2,7 @@ package org.homonoia.echo.bot.annotations;
 
 import org.homonoia.echo.model.RoomEnter;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -19,6 +20,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EventListener(classes = {RoomEnter.class})
+@Async
 public @interface OnJoin {
     boolean self() default false;
     String regex() default "";

@@ -1,29 +1,14 @@
 package org.homonoia.echo.bot.event.adapter;
 
-import org.homonoia.echo.bot.annotations.Hear;
 import org.homonoia.echo.bot.annotations.OnJoin;
-import org.homonoia.echo.bot.annotations.OnLeave;
-import org.homonoia.echo.bot.annotations.RespondTo;
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.RoomEnter;
-import org.homonoia.echo.model.RoomEvent;
-import org.homonoia.echo.model.RoomExit;
-import org.homonoia.echo.model.RoomMessage;
-import org.homonoia.echo.model.RoomNotification;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.event.ApplicationListenerMethodAdapter;
-import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
-
-import static java.util.Objects.nonNull;
 
 /**
  * Copyright (c) 2015-2017 Homonoia Studios.
@@ -51,7 +36,7 @@ public class OnJoinApplicationListenerMethodAdapter extends FilteringApplication
             if (self) {
                 selfPassed = !Objects.equals(roomEnter.getSender().getMentionName(), hipchatProperties.getMentionName());
             }
-            return evaluate(regex, room, roomEnter, selfPassed, roomEnter.getSender(), roomEnter.getRoom());
+            return evaluate(regex, room, roomEnter, selfPassed);
         }
         return false;
     }

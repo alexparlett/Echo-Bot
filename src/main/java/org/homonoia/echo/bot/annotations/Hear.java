@@ -3,6 +3,7 @@ package org.homonoia.echo.bot.annotations;
 import org.homonoia.echo.model.RoomMessage;
 import org.homonoia.echo.model.RoomNotification;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -20,6 +21,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EventListener(classes = {RoomMessage.class, RoomNotification.class})
+@Async
 public @interface Hear {
     boolean self() default false;
     String regex() default "";

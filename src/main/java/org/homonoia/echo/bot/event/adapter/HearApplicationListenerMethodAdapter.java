@@ -52,7 +52,7 @@ public class HearApplicationListenerMethodAdapter extends FilteringApplicationLi
                 selfPassed = !Objects.equals(roomNotification.getMessage().getFrom(), hipchatProperties.getMentionName());
             }
 
-            return evaluate(regex, room, roomNotification, selfPassed, roomNotification.getMessage(), roomNotification.getRoom());
+            return evaluate(regex, room, roomNotification, selfPassed);
         }
         return false;
     }
