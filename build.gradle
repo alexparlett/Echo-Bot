@@ -11,9 +11,11 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version '1.5.2.RELEASE'
     id 'java'
+    id 'com.palantir.git-version' version '0.6.0'
 }
 
-version = '0.0.1-SNAPSHOT'
+version = gitVersion()
+ext.git = versionDetails()
 
 sourceCompatibility = 1.8
 
@@ -41,6 +43,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+}
+
+processResources {
+    expand project.properties
 }
 
 bootRepackage {

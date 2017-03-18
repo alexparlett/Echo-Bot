@@ -24,4 +24,5 @@ public interface HipchatClient {
     void sendRoomNotification(Room room, Notification notification);
     Room getRoom(String name);
     User getUserByMentionName(String mentionName);
+    User getUser(String user);
 }

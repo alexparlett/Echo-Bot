@@ -1,11 +1,11 @@
 package org.homonoia.echo.web.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.RoomEnter;
 import org.homonoia.echo.model.RoomExit;
 import org.homonoia.echo.model.RoomMessage;
 import org.homonoia.echo.model.RoomNotification;
+import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.WebhookEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -32,7 +32,7 @@ public class HipchatWebhookController {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    private HipchatProperties hipchatProperties;
+    private User user;
 
     @PostMapping(value = "/room-message", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleRoomMessage(@RequestBody WebhookEvent<RoomMessage> roomMessage) {
@@ -41,7 +41,7 @@ public class HipchatWebhookController {
                 .getMessage()
                 .getMentions()
                 .stream()
-                .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), hipchatProperties.getMentionName()));
+                .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), user.getMentionName()));
         roomMessage.getItem().setSelf(botMentioned);
 
         log.info("{}", roomMessage);
@@ -56,7 +56,7 @@ public class HipchatWebhookController {
                 .getMessage()
                 .getMentions()
                 .stream()
-                .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), hipchatProperties.getMentionName()));
+                .anyMatch(mentioned -> Objects.equals(mentioned.getMentionName(), user.getMentionName()));
         roomNotification.getItem().setSelf(botMentioned);
 
         log.info("{}", roomNotification);

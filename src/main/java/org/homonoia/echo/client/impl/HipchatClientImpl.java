@@ -118,4 +118,16 @@ public class HipchatClientImpl implements HipchatClient {
 
         return restTemplate.getForObject(url, User.class);
     }
+
+    @Override
+    public User getUser(String user) {
+        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
+                .path("user/{user}")
+                .queryParam("auth_token", hipchatProperties.getToken())
+                .buildAndExpand(user)
+                .encode()
+                .toUri();
+
+        return restTemplate.getForObject(url, User.class);
+    }
 }

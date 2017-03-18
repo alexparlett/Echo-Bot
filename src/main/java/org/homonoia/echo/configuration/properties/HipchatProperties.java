@@ -20,5 +20,5 @@ public class HipchatProperties {
     private String token;
     private List<String> rooms;
     private HipchatCallbacks callbacks;
-    private String mentionName;
+    private String user;
 }

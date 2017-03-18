@@ -29,6 +29,6 @@ public class HipchatConfiguration {
 
     @Bean
     public User user(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
-        return hipchatClient.getUserByMentionName(hipchatProperties.getMentionName());
+        return hipchatClient.getUser(hipchatProperties.getUser());
     }
 }

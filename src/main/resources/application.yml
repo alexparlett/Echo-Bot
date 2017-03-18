@@ -23,3 +23,9 @@ hipchat:
     exit: https://hs-echo-bot.herokuapp.com/hipchat/room-exit
   rooms:
     - Test
+
+info:
+  version: "${project.version}"
+  git:
+    commit: "${git.gitHash}"
+    branch: "${git.branchName}"
