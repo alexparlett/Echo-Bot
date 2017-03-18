@@ -27,7 +27,8 @@ public class FilteringApplicationListenerMethodAdapter extends ApplicationListen
     protected final HipchatProperties hipchatProperties;
 
     public FilteringApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method,
-                                                     FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext, HipchatProperties hipchatProperties) {
+                                                     FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext,
+                                                     HipchatProperties hipchatProperties) {
         super(beanName, targetClass, method);
         this.evaluator = evaluator;
         this.applicationContext = applicationContext;

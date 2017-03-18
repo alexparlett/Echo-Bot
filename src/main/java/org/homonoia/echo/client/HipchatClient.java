@@ -1,6 +1,7 @@
 package org.homonoia.echo.client;
 
 import org.homonoia.echo.model.Room;
+import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.post.Message;
 import org.homonoia.echo.model.post.Notification;
 import org.homonoia.echo.model.post.Topic;
@@ -21,4 +22,6 @@ public interface HipchatClient {
     void setRoomTopic(Room room, Topic topic);
     void sendRoomMessage(Room room, Message message);
     void sendRoomNotification(Room room, Notification notification);
+    Room getRoom(String name);
+    User getUserByMentionName(String mentionName);
 }

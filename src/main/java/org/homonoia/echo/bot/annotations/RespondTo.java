@@ -23,7 +23,33 @@ import java.lang.annotation.Target;
 @EventListener(condition = "#a0.self == true", classes = {RoomMessage.class, RoomNotification.class})
 @Async
 public @interface RespondTo {
+    /**
+     * Whether Echo will respond to messages from itself
+     *
+     * @return true | false
+     */
     boolean self() default false;
-    String regex() default "";
+
+    /**
+     * <p>The regex string to match on the message. Based on SPeL with the {@link org.homonoia.echo.model.Message} or
+     * {@link org.homonoia.echo.model.Notification} as the root object.</p>
+     * e.g.
+     * <code>#root.message contains '\\b(Hi|Hello|Howdy)'</code>
+     * <p>This would match anything sent directly to @Echo with the word Hi or Hello in it.</p>
+     *
+     * @return The Regex
+     */
+    String regex();
+
+    /**
+     * <p>The regex string to match on the room. Based on SPeL with the {@link org.homonoia.echo.model.Room} as
+     * the root object.</p>
+     * e.g.
+     * <code>#root.name matches 'Test'</code>
+     * <p>This would match anything sent to the Test room.</p>
+     * <p>This does have to be one of the rooms that echo is listening to.</p>
+     *
+     * @return The Regex
+     */
     String room() default "";
 }

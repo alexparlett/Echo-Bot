@@ -2,6 +2,10 @@ package org.homonoia.echo.lifecycle;
 
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.Room;
+import org.homonoia.echo.model.post.Notification;
+import org.homonoia.echo.model.post.NotificationColor;
+import org.homonoia.echo.model.post.NotificationFormat;
 import org.homonoia.echo.model.post.Webhook;
 import org.homonoia.echo.model.WebhookResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +27,23 @@ import static java.util.Objects.nonNull;
 @Component
 public class HipchatInitializer implements SmartLifecycle {
 
-    private final HipchatProperties hipchatProperties;
+    private HipchatProperties hipchatProperties;
     private final HipchatClient hipchatClient;
     private final Map<String, List<WebhookResult>> activeWebhooks;
+    private final Map<String, Room> rooms;
     private boolean running = false;
 
     @Autowired
-    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient) {
+    public HipchatInitializer(HipchatProperties hipchatProperties, HipchatClient hipchatClient, Map<String,Room> rooms) {
         this.hipchatProperties = hipchatProperties;
         this.hipchatClient = hipchatClient;
         this.activeWebhooks = new HashMap<>();
+        this.rooms = rooms;
     }
 
     @Override
     public void start() {
-        hipchatProperties.getRooms().forEach(room -> {
+        rooms.forEach((name,room) -> {
             unbindRoom(room);
             bindRoom(room);
         });
@@ -46,9 +52,7 @@ public class HipchatInitializer implements SmartLifecycle {
 
     @Override
     public void stop() {
-        hipchatProperties.getRooms().forEach(room -> {
-            unbindRoom(room);
-        });
+        rooms.forEach((name,room) -> unbindRoom(room));
         running = false;
     }
 
@@ -73,7 +77,7 @@ public class HipchatInitializer implements SmartLifecycle {
         return 0;
     }
 
-    private void bindRoom(String room) {
+    private void bindRoom(Room room) {
         Webhook roomEnter = Webhook.builder()
                 .event("room_enter")
                 .url(hipchatProperties.getCallbacks().getEnter())
@@ -94,14 +98,23 @@ public class HipchatInitializer implements SmartLifecycle {
                 .url(hipchatProperties.getCallbacks().getNotification())
                 .build();
 
-        List<WebhookResult> webhooks = hipchatClient.createWebhooks(room, roomEnter, roomExit, roomMessage, roomNotification);
-        activeWebhooks.put(room, webhooks);
+        List<WebhookResult> webhooks = hipchatClient.createWebhooks(room.getName(), roomEnter, roomExit, roomMessage, roomNotification);
+        activeWebhooks.put(room.getName(), webhooks);
+
+        Notification notification = Notification.builder()
+                .message("@all Hi!")
+                .color(NotificationColor.PURPLE)
+                .messageFormat(NotificationFormat.TEXT)
+                .notify(false)
+                .build();
+
+        hipchatClient.sendRoomNotification(room, notification);
     }
 
-    private void unbindRoom(String room) {
+    private void unbindRoom(Room room) {
         List<WebhookResult> webhookResults = activeWebhooks.remove(room);
         if (nonNull(webhookResults)) {
-            webhookResults.forEach(webhookResult -> hipchatClient.deleteWebhook(room, webhookResult));
+            webhookResults.forEach(webhookResult -> hipchatClient.deleteWebhook(room.getName(), webhookResult));
         }
     }
 }

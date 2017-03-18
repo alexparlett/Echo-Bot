@@ -3,6 +3,7 @@ package org.homonoia.echo.client.impl;
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.Room;
+import org.homonoia.echo.model.User;
 import org.homonoia.echo.model.post.Message;
 import org.homonoia.echo.model.post.Notification;
 import org.homonoia.echo.model.post.Topic;
@@ -92,5 +93,29 @@ public class HipchatClientImpl implements HipchatClient {
                 .toUri();
 
         restTemplate.postForLocation(url, notification);
+    }
+
+    @Override
+    public Room getRoom(String name) {
+        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
+                .path("room/{room}")
+                .queryParam("auth_token", hipchatProperties.getToken())
+                .buildAndExpand(name)
+                .encode()
+                .toUri();
+
+        return restTemplate.getForObject(url, Room.class);
+    }
+
+    @Override
+    public User getUserByMentionName(String mentionName) {
+        URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
+                .path("user/@{user}")
+                .queryParam("auth_token", hipchatProperties.getToken())
+                .buildAndExpand(mentionName)
+                .encode()
+                .toUri();
+
+        return restTemplate.getForObject(url, User.class);
     }
 }

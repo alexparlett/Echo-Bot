@@ -18,9 +18,9 @@ public class Notification {
     private String from;
 
     @JsonProperty("message_format")
-    private String messageFormat;
+    private NotificationFormat messageFormat;
 
-    private String color;
+    private NotificationColor color;
 
     @JsonProperty("attach_to")
     private String attachTo;
