@@ -23,9 +23,19 @@ hipchat:
     exit: https://hs-echo-bot.herokuapp.com/hipchat/room-exit
   rooms:
     - Test
+  plugins:
+    core:
+      friendly: true
+      devops: true
 
 info:
   version: "${project.version}"
   git:
     commit: "${gitHash}"
     branch: "${branchName}"
+
+management:
+  security:
+    enabled: false
+  context-path: /manage
+

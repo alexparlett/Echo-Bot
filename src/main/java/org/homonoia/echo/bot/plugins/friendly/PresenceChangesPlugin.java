@@ -7,6 +7,7 @@ import org.homonoia.echo.model.RoomEnter;
 import org.homonoia.echo.model.RoomExit;
 import org.homonoia.echo.model.post.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -18,6 +19,7 @@ import java.text.MessageFormat;
  * @since 17/03/2017
  */
 @Component
+@ConditionalOnProperty(prefix = "hipchat.plugins.core", name = "friendly", havingValue = "true", matchIfMissing = true)
 public class PresenceChangesPlugin {
 
     @Autowired

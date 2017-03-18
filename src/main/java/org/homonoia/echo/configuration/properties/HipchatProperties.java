@@ -21,4 +21,5 @@ public class HipchatProperties {
     private List<String> rooms;
     private HipchatCallbacks callbacks;
     private String user;
+    private HipchatPlugins plugins;
 }
