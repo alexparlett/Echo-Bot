@@ -26,7 +26,7 @@ public class StandupPlugin {
     @Autowired
     private Map<String,Room> rooms;
 
-    @Scheduled(cron = "0, 0, 10, *, *, MON-FRI")
+    @Scheduled(cron = "0 0 10 * * MON-FRI", zone = "Europe/London")
     public void standup() {
         Notification notification = Notification.builder()
                 .messageFormat(NotificationFormat.TEXT)
