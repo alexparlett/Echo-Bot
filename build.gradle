@@ -19,16 +19,14 @@ File git = new File(projectDir, '.git')
 print(git.exists())
 if(!git.exists()) {
     version = 'heroku'
-    ext.git = {
-        gitHash = 'heroku'
-        branchName = 'heroku'
-    }
+    ext.git.gitHash = 'heroku'
+    ext.git.branchName = 'heroku'
 } else {
     apply plugin: 'com.palantir.git-version'
     version = gitVersion()
     ext.git = versionDetails()
 }
-print(ext);
+
 
 sourceCompatibility = 1.8
 
