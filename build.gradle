@@ -14,9 +14,9 @@ plugins {
     id 'com.palantir.git-version' version '0.6.0' apply false
 }
 
-print(System.hasProperty('build.heroku'))
 
-File git = new File('.git')
+File git = new File(projectDir, '.git')
+print(git.exists())
 if(git.exists()) {
     version = 'heroku'
     ext.git = {
