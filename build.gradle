@@ -16,7 +16,8 @@ plugins {
 
 print(System.hasProperty('build.heroku'))
 
-if(System.hasProperty('build.heroku')) {
+File git = new File('.git')
+if(git.exists()) {
     version = 'heroku'
     ext.git = {
         gitHash = 'heroku'
