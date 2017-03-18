@@ -27,5 +27,5 @@ hipchat:
 info:
   version: "${project.version}"
   git:
-    commit: "${git.gitHash}"
-    branch: "${git.branchName}"
+    commit: "${gitHash}"
+    branch: "${branchName}"
