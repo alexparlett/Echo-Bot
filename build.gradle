@@ -28,6 +28,7 @@ if(!git.exists()) {
     version = gitVersion()
     ext.git = versionDetails()
 }
+print(ext);
 
 sourceCompatibility = 1.8
 
