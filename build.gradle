@@ -17,7 +17,7 @@ plugins {
 
 File git = new File(projectDir, '.git')
 print(git.exists())
-if(git.exists()) {
+if(!git.exists()) {
     version = 'heroku'
     ext.git = {
         gitHash = 'heroku'
