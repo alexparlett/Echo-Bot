@@ -2,8 +2,11 @@ server:
   display-name: Echo
 
 logging:
+  pattern:
+    console: "%d %-5level [%thread] %logger : %msg%n"
   level:
-    org.apache.http: 'DEBUG'
+    ROOT: INFO
+    org.apache.http: DEBUG
 
 spring:
   redis:
