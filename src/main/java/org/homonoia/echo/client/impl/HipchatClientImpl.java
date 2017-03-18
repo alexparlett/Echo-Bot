@@ -86,7 +86,7 @@ public class HipchatClientImpl implements HipchatClient {
     @Override
     public void sendRoomNotification(Room room, Notification notification) {
         URI url = UriComponentsBuilder.fromUriString(hipchatProperties.getUrl())
-                .path("room/{room}/message")
+                .path("room/{room}/notification")
                 .queryParam("auth_token", hipchatProperties.getToken())
                 .buildAndExpand(room.getId())
                 .encode()
