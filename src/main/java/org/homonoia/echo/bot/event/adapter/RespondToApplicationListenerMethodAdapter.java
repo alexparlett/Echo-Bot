@@ -2,9 +2,9 @@ package org.homonoia.echo.bot.event.adapter;
 
 import org.homonoia.echo.bot.annotations.RespondTo;
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
-import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.RoomMessage;
 import org.homonoia.echo.model.RoomNotification;
+import org.homonoia.echo.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -19,8 +19,10 @@ import java.util.Objects;
  */
 public class RespondToApplicationListenerMethodAdapter extends FilteringApplicationListenerMethodAdapter {
 
-    public RespondToApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method, FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext, HipchatProperties hipchatProperties) {
-        super(beanName, targetClass, method, evaluator, applicationContext, hipchatProperties);
+    public RespondToApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method,
+                                                   FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext,
+                                                   User user) {
+        super(beanName, targetClass, method, evaluator, applicationContext, user);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class RespondToApplicationListenerMethodAdapter extends FilteringApplicat
 
             boolean selfPassed = true;
             if (self) {
-                selfPassed = !Objects.equals(roomMessage.getMessage().getFrom().getMentionName(), hipchatProperties.getMentionName());
+                selfPassed = !Objects.equals(roomMessage.getMessage().getFrom().getMentionName(), user.getMentionName());
             }
 
             return selfPassed && evaluate(regex, roomMessage.getMessage()) && evaluate(room, roomMessage.getRoom());
@@ -49,7 +51,7 @@ public class RespondToApplicationListenerMethodAdapter extends FilteringApplicat
 
             boolean selfPassed = true;
             if (self) {
-                selfPassed = !Objects.equals(roomNotification.getMessage().getFrom(), hipchatProperties.getMentionName());
+                selfPassed = !Objects.equals(roomNotification.getMessage().getFrom(), user.getName());
             }
 
             return selfPassed && evaluate(regex, roomNotification.getMessage()) && evaluate(room, roomNotification.getRoom());

@@ -2,9 +2,9 @@ package org.homonoia.echo.bot.event.adapter;
 
 import org.homonoia.echo.bot.annotations.OnLeave;
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
-import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.RoomEnter;
 import org.homonoia.echo.model.RoomExit;
+import org.homonoia.echo.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -19,8 +19,10 @@ import java.util.Objects;
  */
 public class OnLeaveApplicationListenerMethodAdapter extends FilteringApplicationListenerMethodAdapter {
 
-    public OnLeaveApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method, FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext, HipchatProperties hipchatProperties) {
-        super(beanName, targetClass, method, evaluator, applicationContext, hipchatProperties);
+    public OnLeaveApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method,
+                                                  FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext,
+                                                  User user) {
+        super(beanName, targetClass, method, evaluator, applicationContext, user);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class OnLeaveApplicationListenerMethodAdapter extends FilteringApplicatio
 
             boolean selfPassed = true;
             if (self) {
-                selfPassed = !Objects.equals(roomExit.getSender().getMentionName(), hipchatProperties.getMentionName());
+                selfPassed = !Objects.equals(roomExit.getSender().getMentionName(), user.getMentionName());
             }
             return selfPassed && evaluate(regex, roomExit.getSender()) && evaluate(room, roomExit.getRoom());
         }

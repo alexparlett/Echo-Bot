@@ -2,8 +2,8 @@ package org.homonoia.echo.bot.event.adapter;
 
 import org.homonoia.echo.bot.annotations.OnJoin;
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
-import org.homonoia.echo.configuration.properties.HipchatProperties;
 import org.homonoia.echo.model.RoomEnter;
+import org.homonoia.echo.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -18,8 +18,10 @@ import java.util.Objects;
  */
 public class OnJoinApplicationListenerMethodAdapter extends FilteringApplicationListenerMethodAdapter {
 
-    public OnJoinApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method, FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext, HipchatProperties hipchatProperties) {
-        super(beanName, targetClass, method, evaluator, applicationContext, hipchatProperties);
+    public OnJoinApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method,
+                                                FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext,
+                                                User user) {
+        super(beanName, targetClass, method, evaluator, applicationContext, user);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class OnJoinApplicationListenerMethodAdapter extends FilteringApplication
 
             boolean selfPassed = true;
             if (self) {
-                selfPassed = !Objects.equals(roomEnter.getSender().getMentionName(), hipchatProperties.getMentionName());
+                selfPassed = !Objects.equals(roomEnter.getSender().getMentionName(), user.getMentionName());
             }
             return selfPassed && evaluate(regex, roomEnter.getSender()) && evaluate(room, roomEnter.getRoom());
         }

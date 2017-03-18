@@ -3,7 +3,7 @@ package org.homonoia.echo.bot.event.factory;
 import org.homonoia.echo.bot.annotations.RespondTo;
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
 import org.homonoia.echo.bot.event.adapter.RespondToApplicationListenerMethodAdapter;
-import org.homonoia.echo.configuration.properties.HipchatProperties;
+import org.homonoia.echo.model.User;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,12 +22,12 @@ import java.lang.reflect.Method;
  */
 public class RespondToListenerFactory implements EventListenerFactory, Ordered, ApplicationContextAware {
 
-    private final HipchatProperties hipchatProperties;
+    private final User user;
     private ApplicationContext applicationContext;
     private final FilteredEventExpressionEvaluator evaluator = new FilteredEventExpressionEvaluator();
 
-    public RespondToListenerFactory(HipchatProperties hipchatProperties) {
-        this.hipchatProperties = hipchatProperties;
+    public RespondToListenerFactory(User user) {
+        this.user = user;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RespondToListenerFactory implements EventListenerFactory, Ordered, 
 
     @Override
     public ApplicationListener<?> createApplicationListener(String beanName, Class<?> type, Method method) {
-        return new RespondToApplicationListenerMethodAdapter(beanName, type, method,evaluator,applicationContext,hipchatProperties);
+        return new RespondToApplicationListenerMethodAdapter(beanName, type, method,evaluator,applicationContext,user);
     }
 
     @Override
