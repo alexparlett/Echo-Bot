@@ -16,7 +16,6 @@ plugins {
 
 
 File git = new File(projectDir, '.git')
-print(git.exists())
 if(!git.exists()) {
     version = 'heroku'
     ext.gitHash = 'heroku'
@@ -27,7 +26,6 @@ if(!git.exists()) {
     ext.gitHash = versionDetails().gitHash
     ext.branchName = versionDetails().branchName
 }
-
 
 sourceCompatibility = 1.8
 

@@ -15,7 +15,7 @@ spring:
 hipchat:
   url: https://homonoia-studios.hipchat.com/v2/
   token: 1Y14A9fafgTBbKWusO6I5wUPHSg0GutiNoYHqkWf
-  mentionName: Echo
+  user: 4193333
   callbacks:
     message: https://hs-echo-bot.herokuapp.com/hipchat/room-message
     notification: https://hs-echo-bot.herokuapp.com/hipchat/room-notification
