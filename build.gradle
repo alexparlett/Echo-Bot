@@ -11,10 +11,8 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version '1.5.2.RELEASE'
     id 'java'
-    id 'com.palantir.git-version' version '0.6.0'
+    id 'com.palantir.git-version' version '0.6.0' apply false
 }
-
-print(System.getProperties())
 
 if(System.hasProperty('build.heroku')) {
     version = 'heroku'
@@ -23,6 +21,7 @@ if(System.hasProperty('build.heroku')) {
         branchName = 'heroku'
     }
 } else {
+    apply plugin: 'com.palantir.git-version'
     version = gitVersion()
     ext.git = versionDetails()
 }
