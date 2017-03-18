@@ -14,7 +14,7 @@ plugins {
     id 'com.palantir.git-version' version '0.6.0'
 }
 
-if(project.hasProperty('HEROKU')) {
+if(project.hasProperty('build.heroku')) {
     version = 'heroku'
     ext.git = {
         gitHash = 'heroku'
