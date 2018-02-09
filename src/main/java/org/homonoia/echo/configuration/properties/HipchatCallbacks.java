@@ -1,7 +1,6 @@
 package org.homonoia.echo.configuration.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Copyright (c) 2015-2016 Homonoia Studios.
@@ -9,8 +8,7 @@ import lombok.Setter;
  * @author alexparlett
  * @since 16/03/2017
  */
-@Getter
-@Setter
+@Data
 public class HipchatCallbacks {
     private String message;
     private String notification;

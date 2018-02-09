@@ -31,6 +31,7 @@ public class Notification {
     private String attachTo;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Builder.Default
     private boolean notify = false;
 
     private String message;

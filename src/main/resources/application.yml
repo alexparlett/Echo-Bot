@@ -6,7 +6,6 @@ logging:
     console: "%d %-5level [%thread] %logger : %msg%n"
   level:
     ROOT: INFO
-    org.apache.http: DEBUG
 
 spring:
   redis:
@@ -35,7 +34,8 @@ info:
     branch: "${branchName}"
 
 management:
-  security:
-    enabled: false
-  context-path: /manage
+  server:
+    servlet:
+      context-path: /manage
+
 

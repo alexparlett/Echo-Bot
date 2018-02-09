@@ -1,6 +1,6 @@
 package org.homonoia.echo.configuration;
 
-import org.springframework.boot.autoconfigure.web.WebClientAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class WebClientConfiguration {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder, ClientHttpRequestFactory clientHttpRequestFactory) {
-        return restTemplateBuilder.requestFactory(clientHttpRequestFactory)
+        return restTemplateBuilder.requestFactory(() -> clientHttpRequestFactory)
                 .build();
     }
 

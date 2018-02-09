@@ -30,11 +30,11 @@ public @interface OnLeave {
     boolean self() default false;
 
     /**
-     * <p>The regex string to match on the user joining. Based on SPeL with the {@link org.homonoia.echo.model.User} as
+     * <p>The regex string to match on the user leaving. Based on SPeL with the {@link org.homonoia.echo.model.User} as
      * the root object.</p>
      * e.g.
      * <code>#root.mentionName matches '(Echo|Mark|Larry)'</code>
-     * <p>This would match Echo, Mark or Larry joining.</p>
+     * <p>This would match Echo, Mark or Larry leaving.</p>
      *
      * @return The Regex
      */

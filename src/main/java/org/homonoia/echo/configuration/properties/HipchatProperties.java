@@ -17,9 +17,14 @@ import java.util.List;
 @Setter
 public class HipchatProperties {
     private String url;
+
     private String token;
+
     private List<String> rooms;
+
     private HipchatCallbacks callbacks;
+
     private String user;
+
     private HipchatPlugins plugins;
 }
