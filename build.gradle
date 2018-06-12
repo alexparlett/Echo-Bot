@@ -1,57 +1,29 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RC1'
+        springBootVersion = '2.0.0.RELEASE'
     }
     repositories {
         mavenCentral()
-        maven {
-            url 'https://repo.spring.io/libs-milestone'
-        }
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
 plugins {
     id 'idea'
     id 'java'
-    id 'com.palantir.git-version' version '0.6.0' apply false
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.4.RELEASE'
     id "org.sgornostal.docker" version "1.4"
-}
-
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
-File git = new File(projectDir, '.git')
-if(!git.exists()) {
-    version = 'heroku'
-    ext.gitHash = 'heroku'
-    ext.branchName = 'heroku'
-    ext.tag = 'heroku'
-} else {
-    apply plugin: 'com.palantir.git-version'
-    version = gitVersion()
-    def details = versionDetails()
-    ext.gitHash = details.gitHash
-    ext.branchName = details.branchName
-    ext.tag = details.lastTag
+    id "com.cinnober.gradle.semver-git" version "2.3.1"
+    id 'com.palantir.git-version' version '0.6.0'
 }
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://repo.spring.io/libs-milestone'
-    }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    }
-}
+project.ext.git = versionDetails()
 
 dependencies {
     runtime 'org.springframework.boot:spring-boot-devtools'
@@ -69,6 +41,7 @@ dependencies {
     compile 'org.springframework.retry:spring-retry'
     compile 'org.springframework.boot:spring-boot-starter-validation'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.rubiconproject.oss:jchronic:0.2.6'
     compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'org.projectlombok:lombok'
     testCompile 'org.springframework.boot:spring-boot-starter-test'

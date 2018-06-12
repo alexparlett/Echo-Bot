@@ -1,5 +1,6 @@
 server:
-  display-name: Echo
+  servlet:
+    application-display-name: Echo
 
 logging:
   pattern:
@@ -30,8 +31,8 @@ hipchat:
 info:
   version: "${project.version}"
   git:
-    commit: "${gitHash}"
-    branch: "${branchName}"
+    commit: "${project.ext.git.gitHash}"
+    branch: "${project.ext.git.branchName}"
 
 management:
   server:
