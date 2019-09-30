@@ -1,8 +1,11 @@
 package org.homonoia.echo.bot.plugins.friendly;
 
 import com.mdimension.jchronic.Chronic;
+import com.mdimension.jchronic.Options;
 import com.mdimension.jchronic.utils.Span;
 import org.homonoia.echo.bot.annotations.RespondTo;
+import org.homonoia.echo.documentation.annotations.EchoDoc;
+import org.homonoia.echo.documentation.annotations.EchoDocExample;
 import org.homonoia.echo.bot.plugins.friendly.reminder.RemindMeJob;
 import org.homonoia.echo.client.HipchatClient;
 import org.homonoia.echo.model.RoomMessage;
@@ -45,6 +48,15 @@ public class ReminderPlugin {
 
     //@Echo remind me (at 3pm | in 15 minutes) to (do the build)
     @RespondTo(regex = "#root.message contains '\\b(remind) \\b(me|@.+)'")
+    @EchoDoc(
+            value = "Reminder",
+            description = "Remind either yourself of a specific person with a message at a set time",
+            namespace = "hipchat.plugins.core.friendly",
+            examples = {
+                    @EchoDocExample(value = "@Echo remind me at 3pm to do the build"),
+                    @EchoDocExample(value = "@Echo remind @Tom at 3pm to do the build")
+            }
+    )
     public void handleReminder(RoomMessage event) throws SchedulerException {
         MatchResult matchResult = REMIND_ME_PATTERN.matcher(event.getMessage().getMessage()).toMatchResult();
         if (matchResult.groupCount() == 3) {
@@ -53,7 +65,7 @@ public class ReminderPlugin {
             String time = matchResult.group(2);
             String message = matchResult.group(3);
 
-            Span parse = Chronic.parse(time);
+            Span parse = Chronic.parse(time, new Options(true));
             parse.getEndCalendar().toInstant();
             schedule(event, user, message, Date.from(parse.getEndCalendar().toInstant()));
         } else {
