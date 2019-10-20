@@ -15,7 +15,6 @@ mattermost:
   trigger: '!Echo'
   teams:
     - BotTest
-  user: echo
 
 info:
   version: "${project.version}"

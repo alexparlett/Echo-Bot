@@ -22,8 +22,6 @@ public class MattermostProperties {
 
     private List<String> teams;
 
-    private String user;
-
     private String callback;
 
     private String trigger;

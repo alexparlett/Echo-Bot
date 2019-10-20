@@ -9,7 +9,6 @@ import net.bis5.mattermost.model.OutgoingWebhook;
 import net.bis5.mattermost.model.Post;
 import net.bis5.mattermost.model.Team;
 import net.bis5.mattermost.model.TriggerWhen;
-import net.bis5.mattermost.model.User;
 import org.homonoia.echo.configuration.properties.MattermostProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
@@ -46,12 +45,7 @@ public class MattermostInitializer implements SmartLifecycle {
 
     @Override
     public void start() {
-        ApiResponse<User> userByUsername = mattermostClient.getUserByUsername(mattermostProperties.getUser());
-        if (userByUsername.hasError()) {
-            log.error("User not found {}", mattermostProperties.getUser());
-            return;
-        }
-        mattermostProperties.getTeams().forEach(team -> bindTeam(team, userByUsername.readEntity()));
+        mattermostProperties.getTeams().forEach(this::bindTeam);
         running = true;
     }
 
@@ -82,7 +76,7 @@ public class MattermostInitializer implements SmartLifecycle {
         return 0;
     }
 
-    private void bindTeam(String team, User user) {
+    private void bindTeam(String team) {
         ApiResponse<Team> teamByName = mattermostClient.getTeamByName(team);
         if (teamByName.hasError()) {
             log.error("Failed to read team {}", team);
@@ -113,11 +107,10 @@ public class MattermostInitializer implements SmartLifecycle {
         }
 
         Post post = new Post();
-        post.setMessage(format("@all Hi! I'm now active in this channel, ask %s Help to find out what I can do.", mattermostProperties.getTrigger()));
+        post.setMessage(format("@all Hi! I'm now active in this channel, say %s Help to find out what I can do.", mattermostProperties.getTrigger()));
 
         channelsForTeam.readEntity().forEach(channel -> {
             post.setChannelId(channel.getId());
-            mattermostClient.addChannelMember(channel.getId(), user.getId());
             mattermostClient.createPost(post);
         });
     }

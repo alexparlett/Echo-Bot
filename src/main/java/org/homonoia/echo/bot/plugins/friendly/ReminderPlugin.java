@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
@@ -39,7 +39,7 @@ import static java.lang.String.format;
 @ConditionalOnProperty(prefix = "plugins.core", name = "friendly", havingValue = "true", matchIfMissing = true)
 public class ReminderPlugin {
 
-    private static final Pattern REMIND_ME_PATTERN = Pattern.compile(".*?remind \\b(me|@.+) \\b(.+) to \\b(.+)");
+    private static final Pattern REMIND_ME_PATTERN = Pattern.compile(".*?remind\\s+(me|@[A-Za-z]+)\\s+(.+)\\s+to\\s+(.+)");
 
     @Autowired
     private MattermostClient mattermostClient;
@@ -48,36 +48,48 @@ public class ReminderPlugin {
     private Scheduler scheduler;
 
     //@Echo remind me (at 3pm | in 15 minutes) to (do the build)
-    @RespondTo(regex = "#root contains '\\b(remind) \\b(me|@.+)'")
+    @RespondTo(regex = "#root contains '.*?(remind) (me|@[A-Za-z]+)'")
     @EchoDoc(
             value = "Reminder",
             description = "Remind either yourself of a specific person with a message at a set time",
             namespace = "plugins.core.friendly",
             examples = {
-                    @EchoDocExample(value = "@Echo remind me at 3pm to do the build"),
-                    @EchoDocExample(value = "@Echo remind @Tom at 3pm to do the build")
+                    @EchoDocExample(value = "!Echo remind me today at 3pm to do the build"),
+                    @EchoDocExample(value = "!Echo remind @Tom today at 3pm to do the build")
             }
     )
     public void handleReminder(MattermostEvent event) throws SchedulerException {
-        MatchResult matchResult = REMIND_ME_PATTERN.matcher(event.getPayload().getText()).toMatchResult();
-        if (matchResult.groupCount() == 3) {
+        Matcher matchResult = REMIND_ME_PATTERN.matcher(event.getPayload().getText());
+        if (matchResult.find() && matchResult.groupCount() == 3) {
             String target = matchResult.group(1);
-            User user = mattermostClient.getUser(target).readEntity();
+            User user = getUser(event, target);
             String time = matchResult.group(2);
             String message = matchResult.group(3);
 
             Span parse = Chronic.parse(time, new Options(true));
             parse.getEndCalendar().toInstant();
             schedule(event, user, message, Date.from(parse.getEndCalendar().toInstant()));
+
+            Post post = new Post();
+            post.setChannelId(event.getPayload().getChannelId());
+            post.setMessage(format("@%s Reminder set.", event.getPayload().getUserName()));
+
+            mattermostClient.createPost(post);
         } else {
             User user = mattermostClient.getUser(event.getPayload().getUserId()).readEntity();
 
             Post post = new Post();
             post.setChannelId(event.getPayload().getChannelId());
-            post.setMessage(format("@%s I'm not sure how to respond to that! Please specify when you want the message to be sent and then the message.", user.getNickname()));
+            post.setMessage(format("@%s I'm not sure how to respond to that! Please specify when you want the message to be sent and then the message.", user.getUsername()));
 
             mattermostClient.createPost(post);
         }
+    }
+
+    private User getUser(MattermostEvent event, String target) {
+        return target.equalsIgnoreCase("me") ?
+                mattermostClient.getUser(event.getPayload().getUserId()).readEntity() :
+                mattermostClient.getUserByUsername(target.replace("@", "")).readEntity();
     }
 
     private void schedule(MattermostEvent event, User user, String message, Date scheduledTime) throws SchedulerException {
@@ -90,7 +102,10 @@ public class ReminderPlugin {
                 .withIdentity(event.getPayload().getPostId())
                 .ofType(RemindMeJob.class)
                 .setJobData(jobDataMap)
+                .storeDurably()
                 .build();
+
+        scheduler.addJob(jobDetail, true);
 
         SimpleTrigger trigger = TriggerBuilder.newTrigger()
                 .forJob(jobDetail)

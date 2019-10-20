@@ -6,6 +6,7 @@ import net.bis5.mattermost.model.Post;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import static java.lang.String.format;
@@ -18,7 +19,7 @@ import static java.lang.String.format;
  */
 public class RemindMeJob extends QuartzJobBean {
 
-    @Setter
+    @Setter(onMethod = @__({@Autowired}))
     private MattermostClient mattermostClient;
 
     @Override

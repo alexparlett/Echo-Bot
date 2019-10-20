@@ -30,7 +30,7 @@ public class HelpPlugin {
     @Autowired
     private DocumentationProcessor documentationProcessor;
 
-    @Value("classpath:templates/help.template.html")
+    @Value("#{T(org.apache.commons.io.FileUtils).readFileToString(T(org.springframework.util.ResourceUtils).getFile('classpath:templates/help.template.html'), T(java.nio.charset.StandardCharsets).UTF_8)}")
     private String helpTemplate;
 
     @RespondTo(regex = "#root contains '\\b(Help)'")

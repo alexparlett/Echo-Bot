@@ -48,6 +48,7 @@ dependencies {
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     compile 'net.bis5.mattermost4j:mattermost4j-core:0.17.0'
     runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
 processResources {

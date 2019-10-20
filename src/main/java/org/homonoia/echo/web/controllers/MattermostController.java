@@ -27,8 +27,6 @@ public class MattermostController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleMessages(@RequestBody OutgoingWebhookPayload payload) {
-        log.info("{}", payload);
-
         applicationEventPublisher.publishEvent(MattermostEvent.builder()
                 .payload(payload)
                 .self(payload.getText().startsWith(payload.getTriggerWord()))
