@@ -1,17 +1,22 @@
 package org.homonoia.echo.bot.plugins.core;
 
 import com.hubspot.jinjava.Jinjava;
+import com.hubspot.jinjava.interpret.RenderResult;
+import net.bis5.mattermost.client4.MattermostClient;
+import net.bis5.mattermost.model.Post;
 import org.homonoia.echo.bot.annotations.RespondTo;
-import org.homonoia.echo.client.HipchatClient;
+import org.homonoia.echo.bot.event.MattermostEvent;
 import org.homonoia.echo.documentation.DocumentationProcessor;
-import org.homonoia.echo.model.RoomMessage;
-import org.homonoia.echo.model.post.Notification;
-import org.homonoia.echo.model.post.NotificationColor;
-import org.homonoia.echo.model.post.NotificationFormat;
+import org.homonoia.echo.documentation.annotations.EchoDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+
+import java.util.Map;
+
+import static java.util.Collections.singletonMap;
 
 /**
  * Copyright (c) 2015-2017 Homonoia Studios.
@@ -20,11 +25,11 @@ import org.springframework.stereotype.Component;
  * @since 17/03/2017
  */
 @Component
-@ConditionalOnProperty(prefix = "hipchat.plugins.core", name = "friendly", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "plugins.core", name = "friendly", havingValue = "true", matchIfMissing = true)
 public class HelpPlugin {
 
     @Autowired
-    private HipchatClient hipchatClient;
+    private MattermostClient mattermostClient;
 
     @Autowired
     private Jinjava jinjava;
@@ -32,19 +37,18 @@ public class HelpPlugin {
     @Autowired
     private DocumentationProcessor documentationProcessor;
 
-    @Value("classpath:templates/help.template.html")
+    @Value("#{T(org.apache.commons.io.FileUtils).readFileToString(T(org.springframework.util.ResourceUtils).getFile('classpath:templates/help.template.md'), T(java.nio.charset.StandardCharsets).UTF_8)}")
     private String helpTemplate;
 
-    @RespondTo(regex = "#root.message contains '\\b(Help)'")
-    public void handleDirectHelp(RoomMessage roomMessage) {
-        Notification message = Notification.builder()
-                .message(jinjava.render(helpTemplate, documentationProcessor.getEchoDocumentation()))
-                .messageFormat(NotificationFormat.HTML)
-                .color(NotificationColor.PURPLE)
-                .notify(false)
-                .attachTo(roomMessage.getMessage().getId())
-                .build();
+    @RespondTo(regex = "#root contains '\\b(Help)'")
+    public void handleDirectHelp(MattermostEvent event) {
+        Map<String, MultiValueMap<String, EchoDoc>> context = singletonMap("docs", documentationProcessor.getEchoDocumentation());
+        RenderResult render = jinjava.renderForResult(helpTemplate, context);
 
-        hipchatClient.sendRoomNotification(roomMessage.getRoom(), message);
+        Post post = new Post();
+        post.setChannelId(event.getPayload().getChannelId());
+        post.setMessage(render.getOutput());
+
+        mattermostClient.createPost(post);
     }
 }

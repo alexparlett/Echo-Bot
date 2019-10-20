@@ -1,6 +1,8 @@
 package org.homonoia.echo.configuration.properties;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 
@@ -10,7 +12,9 @@ import java.util.Map;
  * @author alexparlett
  * @since 18/03/2017
  */
-@Data
-public class HipchatPlugins {
+@ConfigurationProperties(prefix = "plugins")
+@Getter
+@Setter
+public class PluginProperties {
     private Map<String,Boolean> core;
 }

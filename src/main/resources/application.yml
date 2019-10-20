@@ -8,21 +8,13 @@ logging:
   level:
     ROOT: INFO
 
-hipchat:
-  url: https://homonoia-studios.hipchat.com/v2/
-  token: PR0WidETa8IWZHkrjmvuAvEzsePhcCDpTxIfGTYY
-  user: 4193333
-  callbacks:
-    message: https://hs-echo-bot.herokuapp.com/hipchat/room-message
-    notification: https://hs-echo-bot.herokuapp.com/hipchat/room-notification
-    enter: https://hs-echo-bot.herokuapp.com/hipchat/room-enter
-    exit: https://hs-echo-bot.herokuapp.com/hipchat/room-exit
-  rooms:
-    - Test
-  plugins:
-    core:
-      friendly: true
-      devops: true
+mattermost:
+  url: http://dockio.local/mattermost
+  token: y4jqj64u37bczpoejswek6t3wh
+  callback: http://192.168.86.64:8080/mattermost
+  trigger: '!Echo'
+  teams:
+    - BotTest
 
 info:
   version: "${project.version}"
@@ -31,8 +23,12 @@ info:
     branch: "${project.ext.git.branchName}"
 
 management:
-  server:
-    servlet:
-      context-path: /manage
+  endpoint:
+    mappings:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 

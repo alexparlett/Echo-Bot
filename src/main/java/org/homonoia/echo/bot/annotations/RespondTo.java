@@ -1,7 +1,7 @@
 package org.homonoia.echo.bot.annotations;
 
-import org.homonoia.echo.model.RoomMessage;
-import org.homonoia.echo.model.RoomNotification;
+import net.bis5.mattermost.model.OutgoingWebhookPayload;
+import org.homonoia.echo.bot.event.MattermostEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -20,36 +20,29 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@EventListener(condition = "#a0.self == true", classes = {RoomMessage.class, RoomNotification.class})
+@EventListener(condition = "#a0.self == true", classes = MattermostEvent.class)
 @Async
 public @interface RespondTo {
     /**
-     * Whether Echo will respond to messages from itself
-     *
-     * @return true | false
-     */
-    boolean self() default false;
-
-    /**
-     * <p>The regex string to match on the message. Based on SPeL with the {@link org.homonoia.echo.model.Message} or
-     * {@link org.homonoia.echo.model.Notification} as the root object.</p>
+     * <p>The regex string to match on the message. Based on SPeL with the {@link OutgoingWebhookPayload#getText()}
+     * as the root object.</p>
      * e.g.
-     * <code>#root.message contains '\\b(Hi|Hello|Howdy)'</code>
-     * <p>This would match anything sent directly to @Echo with the word Hi or Hello in it.</p>
+     * <code>#root contains '\\b(Hi|Hello|Howdy)'</code>
+     * <p>This would match anything sent directly to the trigger word with the word Hi or Hello in it.</p>
      *
      * @return The Regex
      */
     String regex();
 
     /**
-     * <p>The regex string to match on the room. Based on SPeL with the {@link org.homonoia.echo.model.Room} as
+     * <p>The regex string to match on the channel. Based on SPeL with the {@link OutgoingWebhookPayload#getChannelName()} as
      * the root object.</p>
      * e.g.
-     * <code>#root.name matches 'Test'</code>
+     * <code>#root matches 'Test'</code>
      * <p>This would match anything sent to the Test room.</p>
      * <p>This does have to be one of the rooms that echo is listening to.</p>
      *
      * @return The Regex
      */
-    String room() default "";
+    String channel() default "";
 }
