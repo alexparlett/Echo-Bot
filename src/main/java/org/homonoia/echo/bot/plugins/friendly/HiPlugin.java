@@ -5,6 +5,8 @@ import net.bis5.mattermost.model.Post;
 import net.bis5.mattermost.model.User;
 import org.homonoia.echo.bot.annotations.RespondTo;
 import org.homonoia.echo.bot.event.MattermostEvent;
+import org.homonoia.echo.documentation.annotations.EchoDoc;
+import org.homonoia.echo.documentation.annotations.EchoDocExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,15 @@ public class HiPlugin {
     private MattermostClient mattermostClient;
 
     @RespondTo(regex = "#root contains '\\b(Hi|Hello|Howdy|Gday)'")
+    @EchoDoc(
+            value = "Hello",
+            description = "Responds to a Hello",
+            namespace = "Friendly",
+            examples = {
+                    @EchoDocExample(value = "!Echo Hi"),
+                    @EchoDocExample(value = "!Echo Howdy")
+            }
+    )
     public void handleDirectHello(MattermostEvent event) {
         User user = mattermostClient.getUser(event.getPayload().getUserId()).readEntity();
 
