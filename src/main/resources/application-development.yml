@@ -2,3 +2,4 @@ logging:
   level:
     ROOT: INFO
     org.apache.http: DEBUG
+    net.bis5.mattermost.client4.MattermostClient: DEBUG

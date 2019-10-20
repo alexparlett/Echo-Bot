@@ -12,19 +12,19 @@ import java.util.List;
  * @author alexparlett
  * @since 16/03/2017
  */
-@ConfigurationProperties(prefix = "hipchat")
+@ConfigurationProperties(prefix = "mattermost")
 @Getter
 @Setter
-public class HipchatProperties {
+public class MattermostProperties {
     private String url;
 
     private String token;
 
-    private List<String> rooms;
-
-    private HipchatCallbacks callbacks;
+    private List<String> teams;
 
     private String user;
 
-    private HipchatPlugins plugins;
+    private String callback;
+
+    private String trigger;
 }

@@ -1,7 +1,6 @@
 package org.homonoia.echo.bot.event.adapter;
 
 import org.homonoia.echo.bot.event.FilteredEventExpressionEvaluator;
-import org.homonoia.echo.model.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.ApplicationListenerMethodAdapter;
@@ -24,16 +23,13 @@ public class FilteringApplicationListenerMethodAdapter extends ApplicationListen
     protected final Class<?> targetClass;
     protected final AnnotatedElementKey methodKey;
     protected final Method method;
-    protected final User user;
 
     public FilteringApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method,
-                                                     FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext,
-                                                     User user) {
+                                                     FilteredEventExpressionEvaluator evaluator, ApplicationContext applicationContext) {
         super(beanName, targetClass, method);
         this.evaluator = evaluator;
         this.applicationContext = applicationContext;
         this.targetClass = targetClass;
-        this.user = user;
         this.methodKey = new AnnotatedElementKey(method, targetClass);
         this.method = method;
     }
