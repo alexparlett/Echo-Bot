@@ -52,7 +52,7 @@ public class ReminderPlugin {
     @EchoDoc(
             value = "Reminder",
             description = "Remind either yourself of a specific person with a message at a set time",
-            namespace = "plugins.core.friendly",
+            namespace = "Friendly",
             examples = {
                     @EchoDocExample(value = "!Echo remind me today at 3pm to do the build"),
                     @EchoDocExample(value = "!Echo remind @Tom today at 3pm to do the build")

@@ -1,0 +1,1 @@
+{%+ for example in plugin.examples() -%}`{{ example.value() }}`{% if not loop.last %} {% endif %}{%+ endfor -%}
