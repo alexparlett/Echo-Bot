@@ -3,7 +3,6 @@ package org.homonoia.echo.core.configuration.properties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.Map;
 
@@ -17,12 +16,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class PluginsProperties {
-    @NestedConfigurationProperty
     private Map<String, PluginProperties> core;
-
-    @NestedConfigurationProperty
     private Map<String, PluginProperties> friendly;
-
-    @NestedConfigurationProperty
     private Map<String, PluginProperties> devops;
 }

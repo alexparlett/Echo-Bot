@@ -1,16 +1,16 @@
 package org.homonoia.echo.core.bot.plugins.friendly;
 
-import org.homonoia.echo.core.bot.annotations.RespondTo;
-import org.homonoia.echo.core.bot.plugins.friendly.reminder.RemindMeJob;
 import com.mdimension.jchronic.Chronic;
 import com.mdimension.jchronic.Options;
 import com.mdimension.jchronic.utils.Span;
-import org.homonoia.echo.core.documentation.annotations.EchoDocExample;
 import net.bis5.mattermost.client4.MattermostClient;
 import net.bis5.mattermost.model.Post;
 import net.bis5.mattermost.model.User;
+import org.homonoia.echo.core.bot.annotations.RespondTo;
 import org.homonoia.echo.core.bot.event.MattermostEvent;
+import org.homonoia.echo.core.bot.plugins.friendly.reminder.RemindMeJob;
 import org.homonoia.echo.core.documentation.annotations.EchoDoc;
+import org.homonoia.echo.core.documentation.annotations.EchoDocExample;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -41,13 +41,16 @@ public class ReminderPlugin {
 
     private static final Pattern REMIND_ME_PATTERN = Pattern.compile(".*?remind\\s+(me|@[A-Za-z]+)\\s+(.+)\\s+to\\s+(.+)");
 
-    @Autowired
-    private MattermostClient mattermostClient;
+    private final MattermostClient mattermostClient;
+
+    private final Scheduler scheduler;
 
     @Autowired
-    private Scheduler scheduler;
+    public ReminderPlugin(MattermostClient mattermostClient, Scheduler scheduler) {
+        this.mattermostClient = mattermostClient;
+        this.scheduler = scheduler;
+    }
 
-    //@Echo remind me (at 3pm | in 15 minutes) to (do the build)
     @RespondTo(regex = "#root.text contains '.*?(remind) (me|@[A-Za-z]+)'")
     @EchoDoc(
             value = "Reminder",

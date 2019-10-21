@@ -1,10 +1,10 @@
 package org.homonoia.echo.core.bot.plugins.core;
 
-import org.homonoia.echo.core.bot.annotations.RespondTo;
 import com.hubspot.jinjava.Jinjava;
 import com.hubspot.jinjava.interpret.RenderResult;
 import net.bis5.mattermost.client4.MattermostClient;
 import net.bis5.mattermost.model.Post;
+import org.homonoia.echo.core.bot.annotations.RespondTo;
 import org.homonoia.echo.core.bot.event.MattermostEvent;
 import org.homonoia.echo.core.documentation.DocumentationProcessor;
 import org.homonoia.echo.core.documentation.annotations.EchoDoc;
@@ -28,17 +28,21 @@ import static java.util.Collections.singletonMap;
 @ConditionalOnProperty(prefix = "plugins.core.help", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class HelpPlugin {
 
-    @Autowired
-    private MattermostClient mattermostClient;
+    private final MattermostClient mattermostClient;
 
-    @Autowired
-    private Jinjava jinjava;
+    private final Jinjava jinjava;
 
-    @Autowired
-    private DocumentationProcessor documentationProcessor;
+    private final DocumentationProcessor documentationProcessor;
 
     @Value("#{T(com.google.common.io.Resources).toString(T(com.google.common.io.Resources).getResource('templates/help.template.md'), T(java.nio.charset.StandardCharsets).UTF_8)}")
     private String helpTemplate;
+
+    @Autowired
+    public HelpPlugin(MattermostClient mattermostClient, Jinjava jinjava, DocumentationProcessor documentationProcessor) {
+        this.mattermostClient = mattermostClient;
+        this.jinjava = jinjava;
+        this.documentationProcessor = documentationProcessor;
+    }
 
     @RespondTo(regex = "#root.text contains '\\b(Help)'")
     public void handleDirectHelp(MattermostEvent event) {

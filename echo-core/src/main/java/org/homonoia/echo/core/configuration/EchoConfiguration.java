@@ -1,7 +1,5 @@
 package org.homonoia.echo.core.configuration;
 
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -19,6 +17,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableAsync
 @EnableWebMvc
 @ComponentScan("org.homonoia.echo.core")
-@ImportAutoConfiguration(ConfigurationPropertiesAutoConfiguration.class)
 public class EchoConfiguration {
 }

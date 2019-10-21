@@ -44,11 +44,9 @@ public class OperatorContains extends Operator {
 
 	private final ConcurrentMap<String, Pattern> patternCache = new ConcurrentHashMap<String, Pattern>();
 
-
 	public OperatorContains(int pos, SpelNodeImpl... operands) {
 		super("contains", pos, operands);
 	}
-
 
 	/**
 	 * Check the first operand matches the regex specified as the second operand.

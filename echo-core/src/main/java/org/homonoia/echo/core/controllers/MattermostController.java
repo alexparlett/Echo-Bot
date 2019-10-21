@@ -22,8 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class MattermostController {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    public MattermostController(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void handleMessages(@RequestBody OutgoingWebhookPayload payload) {

@@ -15,6 +15,7 @@ mattermost:
   trigger: '!Echo'
   teams:
     - BotTest
+    - BotTest2
 
 info:
   version: "${project.version}"
@@ -38,3 +39,8 @@ plugins:
       configuration:
         cron: '0 0 10 * * MON-FRI'
         timezone: 'Europe/London'
+        teams:
+          BotTest:
+            - Off-Topic
+          BotTest2:
+            - Town-Square
