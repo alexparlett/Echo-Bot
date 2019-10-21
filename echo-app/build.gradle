@@ -1,0 +1,28 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.0.RELEASE'
+    id 'com.palantir.docker' version '0.19.2'
+}
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile project(':echo-core')
+    runtime 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-tomcat'
+    compileOnly 'org.projectlombok:lombok'
+}
+
+processResources {
+    expand(project.properties)
+}
+
+bootJar {
+    mainClassName = 'org.homonoia.echo.app.EchoMain'
+    baseName = 'echo-bot'
+    version = project.version
+}
+
+bootRun {
+    systemProperties = System.properties
+}

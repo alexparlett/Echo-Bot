@@ -1,0 +1,40 @@
+server:
+  servlet:
+    application-display-name: Echo
+
+logging:
+  pattern:
+    console: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    ROOT: INFO
+
+mattermost:
+  url: http://dockio.local/mattermost
+  token: y4jqj64u37bczpoejswek6t3wh
+  callback: http://192.168.86.64:8080/mattermost
+  trigger: '!Echo'
+  teams:
+    - BotTest
+
+info:
+  version: "${project.version}"
+  git:
+    commit: "${project.ext.git.gitHash}"
+    branch: "${project.ext.git.branchName}"
+
+management:
+  endpoint:
+    mappings:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+plugins:
+  devops:
+    standup:
+      enabled: true
+      configuration:
+        cron: '0 0 10 * * MON-FRI'
+        timezone: 'Europe/London'

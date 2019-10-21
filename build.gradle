@@ -1,7 +1,4 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.0.RELEASE'
-    }
     repositories {
         mavenCentral()
     }
@@ -9,63 +6,36 @@ buildscript {
 
 plugins {
     id 'idea'
-    id 'java'
-    id 'org.springframework.boot' version '2.1.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.4.RELEASE'
     id "com.cinnober.gradle.semver-git" version "2.3.1"
     id 'com.palantir.git-version' version '0.6.0'
-    id 'com.palantir.docker' version '0.19.2'
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
 }
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-project.ext.git = versionDetails()
-
-dependencies {
-//    runtime 'org.springframework.boot:spring-boot-devtools'
-    compile 'javax.xml.bind:jaxb-api:2.3.1'
-    compile 'org.apache.httpcomponents:httpasyncclient:4.1.3'
-    compile 'com.fasterxml.jackson.core:jackson-annotations'
-    compile 'com.fasterxml.jackson.core:jackson-core'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    compile 'org.springframework.boot:spring-boot-starter-validation'
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.boot:spring-boot-starter-cache'
-    compile 'org.springframework.boot:spring-boot-starter-quartz'
-    compile 'org.springframework.retry:spring-retry'
-    compile 'org.springframework.boot:spring-boot-starter-validation'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'com.rubiconproject.oss:jchronic:0.2.8'
-    compile 'com.hubspot.jinjava:jinjava:2.4.11'
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
-    compileOnly 'org.projectlombok:lombok'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    compile 'net.bis5.mattermost4j:mattermost4j-core:0.17.0'
-    runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
-}
-
-processResources {
-    filesMatching('application.yml') {
-        expand(project.properties)
+subprojects {
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
     }
-}
 
-bootJar {
-    mainClassName = 'org.homonoia.echo.EchoMain'
-    baseName = 'echo-bot'
-    version = project.version
-}
+    project.ext.git = versionDetails()
 
-bootRun {
-    systemProperties = System.properties
-}
+    group = 'org.homonoia.echo'
+    version = '0.0.5-SNAPSHOT'
 
-task stage(dependsOn: [clean, build])
-stage.mustRunAfter(clean)
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
+        }
+    }
+
+}
