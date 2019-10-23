@@ -8,6 +8,7 @@ import org.homonoia.echo.core.bot.annotations.RespondTo;
 import org.homonoia.echo.core.bot.event.MattermostEvent;
 import org.homonoia.echo.core.documentation.DocumentationProcessor;
 import org.homonoia.echo.core.documentation.annotations.EchoDoc;
+import org.homonoia.echo.core.documentation.annotations.EchoDocExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -45,6 +46,14 @@ public class HelpPlugin {
     }
 
     @RespondTo(regex = "#root.text contains '\\b(Help)'")
+    @EchoDoc(
+            value = "Help",
+            description = "Lists the available commands",
+            namespace = "Core",
+            examples = {
+                    @EchoDocExample(value = "!Echo Help")
+            }
+    )
     public void handleDirectHelp(MattermostEvent event) {
         Map<String, MultiValueMap<String, EchoDoc>> context = singletonMap("docs", documentationProcessor.getEchoDocumentation());
         RenderResult render = jinjava.renderForResult(helpTemplate, context);

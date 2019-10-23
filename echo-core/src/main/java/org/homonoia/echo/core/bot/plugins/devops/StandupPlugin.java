@@ -4,6 +4,7 @@ import net.bis5.mattermost.client4.MattermostClient;
 import net.bis5.mattermost.model.Channel;
 import net.bis5.mattermost.model.Post;
 import org.homonoia.echo.core.configuration.properties.PluginsProperties;
+import org.homonoia.echo.core.documentation.annotations.EchoDoc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,6 +32,11 @@ public class StandupPlugin {
     }
 
     @Scheduled(cron = "${plugins.devops.standup.configuration.cron}", zone = "${plugins.devops.standup.configuration.timezone}")
+    @EchoDoc(
+            value = "Standup",
+            description = "Posts a standup reminder at a set interval",
+            namespace = "Devops"
+    )
     public void standup() {
         LinkedHashMap<String, LinkedHashMap<String,String>> teamMap = (LinkedHashMap<String, LinkedHashMap<String,String>>) pluginsProperties.getDevops().get("standup").getConfiguration().get("teams");
         teamMap.forEach((team, channels) -> {
